@@ -1,8 +1,8 @@
-import { Hero } from "@/components/Hero";
-import { FeaturedProducts } from "@/components/FeaturedProducts";
-import { Categories } from "@/components/Categories";
-import { Testimonials } from "@/components/Testimonials";
-import { Newsletter } from "@/components/Newsletter";
+import { Hero } from "@/components//home/Hero";
+import { FeaturedProducts } from "@/components/home/FeaturedProducts";
+import { Categories } from "@/components/home/Categories";
+import { Testimonials } from "@/components/home/Testimonials";
+import { Newsletter } from "@/components/home/Newsletter";
 import { prisma } from "@/lib/prisma"; // sesuaikan path-nya
 
 export default async function HomePage() {
