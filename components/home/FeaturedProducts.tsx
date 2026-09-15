@@ -2,10 +2,7 @@ import { Product } from "@/types";
 import { ProductCard } from "@/components/ui/ProductCard";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { LinkButton } from "@/components/ui/Button";
-import { Product } from "@prisma/client";
-interface FeaturedProductsProps {
-  products: Product[];
-}
+
 export function FeaturedProducts({ products }: { products: Product[] }) {
   if (products.length === 0) return null;
 
