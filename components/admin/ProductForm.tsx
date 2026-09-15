@@ -3,6 +3,7 @@
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Plus, X, Loader2 } from "lucide-react";
+import { ImageUploader } from "@/components/admin/ImageUploader";
 
 interface CategoryOption {
   id: string;
@@ -243,26 +244,39 @@ export function ProductForm({
 
       <div>
         <div className="flex items-center justify-between mb-2">
-          <label className="text-sm text-ink">URL Gambar</label>
+          <label className="text-sm text-ink">Gambar Produk</label>
           <button
             type="button"
             onClick={() => addListItem("images")}
             className="text-xs text-muted hover:text-ink inline-flex items-center gap-1"
           >
-            <Plus size={12} strokeWidth={1.5} /> Tambah
+            <Plus size={12} strokeWidth={1.5} /> Tambah baris URL
           </button>
         </div>
-        <p className="text-xs text-muted mb-2">
-          Tempel URL gambar (bisa dari layanan seperti Cloudinary/Imgur). Gambar pertama jadi thumbnail utama.
+        <p className="text-xs text-muted mb-3">
+          Upload gambar dari komputer, atau tempel URL gambar (mis. dari Cloudinary/Imgur). Gambar pertama jadi thumbnail utama.
         </p>
-        <div className="space-y-2">
+        <div className="space-y-2 mb-3">
           {form.images.map((image, i) => (
-            <div key={i} className="flex gap-2">
+            <div key={i} className="flex gap-2 items-center">
+              <div className="relative w-11 h-11 shrink-0 bg-surface border border-line overflow-hidden">
+                {image.trim() !== "" && (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={image}
+                    alt=""
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      (e.currentTarget as HTMLImageElement).style.visibility = "hidden";
+                    }}
+                  />
+                )}
+              </div>
               <input
                 value={image}
                 onChange={(e) => updateListItem("images", i, e.target.value)}
                 className="flex-1 border border-line bg-transparent px-4 py-2.5 text-sm text-ink outline-none focus:border-ink"
-                placeholder="https://..."
+                placeholder="https://... atau upload di bawah"
               />
               <button
                 type="button"
@@ -275,6 +289,12 @@ export function ProductForm({
             </div>
           ))}
         </div>
+        <ImageUploader
+          onUploaded={(url) => {
+            const nonEmpty = form.images.filter((i) => i.trim() !== "");
+            update("images", [...nonEmpty, url]);
+          }}
+        />
       </div>
 
       <div className="flex items-center gap-8">

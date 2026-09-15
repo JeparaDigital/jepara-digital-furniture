@@ -3,6 +3,7 @@
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Plus, Trash2, Loader2 } from "lucide-react";
+import { ImageUploader } from "@/components/admin/ImageUploader";
 
 interface CategoryItem {
   id: string;
@@ -82,13 +83,29 @@ export function CategoryManager({
           />
         </div>
         <div>
-          <label className="text-xs text-muted block mb-2">URL Gambar (opsional)</label>
-          <input
-            value={image}
-            onChange={(e) => setImage(e.target.value)}
-            className="w-full border border-line bg-transparent px-4 py-2.5 text-sm text-ink outline-none focus:border-ink"
-            placeholder="https://..."
-          />
+          <label className="text-xs text-muted block mb-2">Gambar Kategori (opsional)</label>
+          <div className="flex items-center gap-3 mb-2">
+            <div className="relative w-11 h-11 shrink-0 bg-surface border border-line overflow-hidden">
+              {image.trim() !== "" && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={image}
+                  alt=""
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    (e.currentTarget as HTMLImageElement).style.visibility = "hidden";
+                  }}
+                />
+              )}
+            </div>
+            <input
+              value={image}
+              onChange={(e) => setImage(e.target.value)}
+              className="flex-1 border border-line bg-transparent px-4 py-2.5 text-sm text-ink outline-none focus:border-ink"
+              placeholder="https://... atau upload di bawah"
+            />
+          </div>
+          <ImageUploader onUploaded={(url) => setImage(url)} label="Upload Gambar" />
         </div>
         <button
           type="submit"

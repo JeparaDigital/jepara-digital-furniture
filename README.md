@@ -24,8 +24,8 @@ Website e-commerce furniture modern bergaya Skandinavia, dibangun dengan Next.js
 ### Panel Admin (`/admin`)
 - **Login** dengan email + password (NextAuth, session JWT)
 - **Dashboard** — total produk, kategori, pesanan baru, stok menipis, pesanan terbaru
-- **Kelola Produk** — tambah, edit, hapus, atur harga/stok/status unggulan-baru, banyak gambar (via URL)
-- **Kelola Kategori** — tambah & hapus kategori
+- **Kelola Produk** — tambah, edit, hapus, atur harga/stok/status unggulan-baru, **upload gambar langsung dari komputer** (atau tempel URL manual)
+- **Kelola Kategori** — tambah & hapus kategori, upload gambar kategori
 - **Riwayat Pesanan** — setiap klik "Pesan via WhatsApp" di situs otomatis tercatat di sini; admin bisa ubah status (Baru → Dikonfirmasi → Dikirim → Selesai / Dibatalkan)
 
 Semua rute di bawah `/admin` (kecuali `/admin/login`) dilindungi middleware — otomatis redirect ke halaman login jika belum masuk.
@@ -89,6 +89,19 @@ types/
   next-auth.d.ts             # Augmentasi tipe session
 ```
 
+## Setup Upload Gambar (Vercel Blob)
+
+Panel admin bisa upload gambar langsung dari komputer (selain tempel URL manual). Ini pakai **Vercel Blob**, gratis untuk skala kecil (1GB storage di plan Hobby).
+
+1. Buka project di [vercel.com](https://vercel.com/dashboard) → tab **Storage** → **Create Database** → pilih **Blob**.
+2. Hubungkan (**Connect**) ke project Jepara Digital Furniture ini — Vercel otomatis menambahkan `BLOB_READ_WRITE_TOKEN` ke Environment Variables project.
+3. **Untuk pengembangan lokal**: buka Project Settings → Environment Variables, salin nilai `BLOB_READ_WRITE_TOKEN`, tempel ke `.env` lokal Anda. Atau jalankan `vercel env pull .env.local` kalau sudah pakai Vercel CLI.
+4. Redeploy (kalau baru menghubungkan Blob setelah deploy pertama).
+
+Tanpa token ini, tombol "Upload dari Komputer" akan menampilkan pesan error yang jelas — form tetap bisa dipakai dengan tempel URL manual sebagai alternatif.
+
+Batas ukuran file: **4.5MB per gambar** (batas request body Vercel Functions di plan Hobby).
+
 ## Setup Database & Admin (WAJIB sebelum menjalankan)
 
 1. **Siapkan database PostgreSQL.** Paling mudah pakai layanan gratis:
@@ -135,14 +148,15 @@ npm start
 2. Buka [vercel.com/new](https://vercel.com/new), import repository.
 3. Di **Environment Variables**, isi `DATABASE_URL`, `NEXTAUTH_SECRET`, `NEXTAUTH_URL` (isi dengan URL produksi Vercel, mis. `https://toko-anda.vercel.app`), `ADMIN_EMAIL`, `ADMIN_PASSWORD`.
 4. Deploy.
-5. Setelah deploy pertama berhasil, jalankan seed sekali dari lokal dengan `DATABASE_URL` produksi (atau lewat `vercel env pull` lalu `npm run db:seed`) untuk membuat akun admin & data awal di database produksi.
+5. Setelah deploy pertama berhasil, hubungkan Vercel Blob (lihat "Setup Upload Gambar" di atas) supaya fitur upload gambar admin aktif.
+6. Jalankan seed sekali dari lokal dengan `DATABASE_URL` produksi (atau lewat `vercel env pull` lalu `npm run db:seed`) untuk membuat akun admin & data awal di database produksi.
 
 ## Mengganti Data Produk
 
 Produk sekarang dikelola sepenuhnya lewat **panel admin** (`/admin/products`) — tidak perlu edit kode lagi:
-- Tambah/edit produk: isi nama, kategori, harga, stok, deskripsi, material, dimensi, poin detail, dan URL gambar.
-- Gambar memakai **URL**, bukan upload file — unggah dulu ke layanan seperti Cloudinary/ImageKit/Vercel Blob, lalu tempel URL-nya. (Upload file langsung dari admin bisa ditambahkan kalau diperlukan — perlu koneksi ke storage eksternal.)
-- Kategori dikelola di `/admin/categories`.
+- Tambah/edit produk: isi nama, kategori, harga, stok, deskripsi, material, dimensi, poin detail, dan gambar.
+- Gambar bisa **upload langsung dari komputer** (tombol "Upload dari Komputer", perlu setup Vercel Blob — lihat bagian di atas) atau **tempel URL** dari layanan lain seperti Cloudinary/ImageKit.
+- Kategori dikelola di `/admin/categories`, juga dengan opsi upload gambar.
 
 `prisma/seed.ts` hanya dipakai untuk **data awal** saat setup pertama kali — setelah itu semua perubahan lewat admin panel, bukan edit file.
 
