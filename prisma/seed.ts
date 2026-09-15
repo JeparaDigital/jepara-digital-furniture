@@ -181,13 +181,11 @@ async function main() {
   const hashed = await bcrypt.hash(adminPassword, 10);
 
   console.log(`Seeding admin account (${adminEmail})...`);
-  await prisma.admin.upsert({
-    where: { email: adminEmail },
-    update: {},
-    create: {
-      email: adminEmail,
-      password: hashed,
-      name: "Admin Jepara Digital Furniture",
+  update: {
+  password: hashed,
+  name: "Admin Jepara Digital Furniture",
+},
+create: {
     },
   });
 
