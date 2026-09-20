@@ -15,7 +15,7 @@ export function ProductGallery({
 
   return (
     <div>
-      <div className="relative aspect-[4/5] bg-surface overflow-hidden">
+      <div className="relative aspect-square bg-surface overflow-hidden">
         <Image
           src={images[active]}
           alt={name}
