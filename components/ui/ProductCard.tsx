@@ -6,7 +6,7 @@ import { formatRupiah } from "@/lib/utils";
 export function ProductCard({ product }: { product: Product }) {
   return (
     <Link href={`/product/${product.slug}`} className="group block">
-      <div className="relative aspect-[4/5] overflow-hidden bg-surface">
+      <div className="relative aspect-[aspect-square] overflow-hidden bg-surface">
         <Image
           src={product.images[0]}
           alt={product.name}
