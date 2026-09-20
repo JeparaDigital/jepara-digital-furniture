@@ -25,12 +25,12 @@ export function ProductCard({ product }: { product: Product }) {
           </span>
         )}
       </div>
-      <div className="mt-4 flex items-start justify-between gap-2">
+      <div className="mt-4 flex flex-col sm:flex-row sm:items-start sm:justify-between gap-1 sm:gap-2">
         <div>
           <h3 className="text-ink text-[15px]">{product.name}</h3>
           <p className="mt-1 text-sm text-muted">{product.category}</p>
         </div>
-        <div className="text-right">
+        <div className="sm:text-right">
           <p className="text-ink text-[15px]">{formatRupiah(product.price)}</p>
           {product.compareAtPrice && (
             <p className="text-sm text-muted line-through">
