@@ -16,8 +16,8 @@ const config: Config = {
     extend: {
       colors: {
         bg: "#FAF8F4",
-        surface: "#F0EAE1",
-        surface2: "#E9E2D6",
+        surface: "#FFFFFF",
+        surface2: "#FFFFFF",
         ink: "#1C1A17",
         muted: "#6E675D",
         line: "#E4DCCF",
