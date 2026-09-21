@@ -57,7 +57,7 @@ export function Hero() {
           <div className="relative aspect-[6/5] lg:aspect-[4/3]">
             <div className="absolute -inset-4 lg:-inset-6 bg-surface -z-10" />
             <Image
-              src="https://nqyraajklsqxyido.public.blob.vercel-storage.com/Gemini_Generated_Image_50f32j50f.jpg"
+              src="https://nqyraajklsqxyido.public.blob.vercel-storage.com/up.jpg"
               alt="Ruang tamu dengan sofa dan meja kayu Jepara"
               fill
               priority
