@@ -20,7 +20,7 @@ const config: Config = {
         surface2: "#FFFFFF",
         ink: "#1C1A17",
         muted: "#6E675D",
-        line: "#E4DCCF",
+        line: "#FFFFFF",
         walnut: {
           DEFAULT: "#7C5A3A",
           light: "#96754F",
